@@ -35,6 +35,34 @@ public class PlayStatus : MonoBehaviour
         ToughenRestorePartLabel = transform.Find("ToughenLabel/RestorePartTime").GetComponent<UILabel>();
         ToughenRestoreAllLabel = transform.Find("ToughenLabel/RestoreAllTime").GetComponent<UILabel>();
 
-
+        PlayerInfo._instance.OnPlayerInfoChanged += this.OnPlayerInfoChanged;
 	}
+
+    void OnDestroy()
+    {
+        PlayerInfo._instance.OnPlayerInfoChanged -= this.OnPlayerInfoChanged;
+    }
+
+    void OnPlayerInfoChanged(InfoType type)
+    {
+        UpdateShow();
+    }
+
+    void UpdateShow()
+    {
+        PlayerInfo info = PlayerInfo._instance;
+
+        headSprite.spriteName = info.HeadPortrait;
+        levelLabel.text = info.Level.ToString();
+        nameLabel.text = info.Name.ToString();
+        powerLabel.text = info.Power.ToString();
+        int requireExp = GameController.GetRequireExpByLevel(info.Level + 1);
+        expSlider.value = (float)info.Exp / requireExp;
+        expLabel.text = info.Exp + "/" + requireExp;
+        diamondLabel.text = info.Diamond.ToString();
+        coinLabel.text = info.Coin.ToString();
+
+    }
+
+
 }

@@ -1,6 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+public enum InfoType
+{
+    Name,
+    HeadPortrait,
+    Level,
+    Power,
+    Exp,
+    Diamond,
+    Coin,
+    Energy,
+    Toughen,
+    All
+}
 public class PlayerInfo : MonoBehaviour
 {
 //姓名
@@ -29,6 +43,10 @@ public class PlayerInfo : MonoBehaviour
 
     private float energyTimer = 0;
     private float toughenTimer = 0;
+
+    public delegate void OnPlayerInfoChangedEvent(InfoType type);
+    public event OnPlayerInfoChangedEvent OnPlayerInfoChanged;
+
 
     #region get set method
     public string Name
@@ -133,9 +151,14 @@ public class PlayerInfo : MonoBehaviour
     #endregion
 
     #region unity Event
-    void Awake()
+    void Awake() 
     {
         _instance = this;
+    }
+
+    void Start()
+    {
+        Init();
     }
 
     void Update()
@@ -148,6 +171,7 @@ public class PlayerInfo : MonoBehaviour
             {
                 Energy += 1;
                 energyTimer -= 60;
+                OnPlayerInfoChanged(InfoType.Energy);
             }
         }
         else
@@ -162,6 +186,7 @@ public class PlayerInfo : MonoBehaviour
             {
                 Toughen += 1;
                 toughenTimer -= 60;
+                OnPlayerInfoChanged(InfoType.Toughen);
             }
         }
         else
@@ -179,8 +204,11 @@ public class PlayerInfo : MonoBehaviour
         this.Exp = 123;
         this.HeadPortrait = "头像底板女性";
         this.Level = 12;
-        this.name = "STeve";
+        this.Name = "text";
         this.Power = 1745;
         this.Toughen = 34;
+
+        OnPlayerInfoChanged(InfoType.All);
     }
 }
+

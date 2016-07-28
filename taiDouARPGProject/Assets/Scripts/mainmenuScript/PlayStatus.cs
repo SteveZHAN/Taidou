@@ -25,6 +25,12 @@ public class PlayStatus : MonoBehaviour
 
     private UIButton closeButton;           //人物状态信息的关闭按钮Button变量
 
+    private UIButton changeNameButton;      //改名按钮的Button变量
+    private GameObject changeNameGo;        //改名界面背景的GameObject变量
+    private UIInput nameInput;              //改名中新名字输入框变量
+    private UIButton sureButton;            //改名中确认的Button变量
+    private UIButton cancelButton;          //改名中取消的Button变量
+
 	void Awake ()
 	{
         _instance = this;
@@ -44,13 +50,29 @@ public class PlayStatus : MonoBehaviour
         ToughenRestorePartLabel = transform.Find("ToughenLabel/RestorePartTime").GetComponent<UILabel>();
         ToughenRestoreAllLabel = transform.Find("ToughenLabel/RestoreAllTime").GetComponent<UILabel>();
 
+        changeNameButton = transform.Find("ButtonChangeName").GetComponent<UIButton>();
+        changeNameGo = transform.Find("ChangeNameBg").gameObject;
+        nameInput = transform.Find("ChangeNameBg/NameInput").GetComponent<UIInput>();
+        sureButton = transform.Find("ChangeNameBg/SureButton").GetComponent<UIButton>();
+        cancelButton = transform.Find("ChangeNameBg/CancelButton").GetComponent<UIButton>();
+        changeNameGo.SetActive(false);      //改名界面默认状态下不显示，是隐藏的
+
         PlayerInfo._instance.OnPlayerInfoChanged += this.OnPlayerInfoChanged;
 
         tween = this.GetComponent<TweenPosition>();
         closeButton = transform.Find("ButtonClose").GetComponent<UIButton>();
 
         EventDelegate ed = new EventDelegate(this, "OnButtonCloseClick");
-        closeButton.onClick.Add(ed);
+        closeButton.onClick.Add(ed);        //等同在unity面板的OnClick中添加对应的点击函数
+
+        EventDelegate ed2 = new EventDelegate(this, "OnButtonChangeNameClick");
+        changeNameButton.onClick.Add(ed2);      //给changeNameButton添加OnButtonChangeNameClick点击事件
+
+        EventDelegate ed3 = new EventDelegate(this, "OnButtonSureClick");
+        sureButton.onClick.Add(ed3);            //给sureButton添加OnButtonSureClick点击事件
+
+        EventDelegate ed4 = new EventDelegate(this, "OnButtonCancelClick");
+        cancelButton.onClick.Add(ed4);          //给cancelButton添加OnButtonCancelClick点击事件
 	}
 
     void Update()
@@ -142,5 +164,24 @@ public class PlayStatus : MonoBehaviour
     public void OnButtonCloseClick()
     {
         tween.PlayReverse();
+    }
+
+    public void OnButtonChangeNameClick()       //点击PlayStatus中的“改名”按钮对应调用的函数
+    {
+        changeNameGo.SetActive(true);           //点击改名按钮就出现改名界面
+    }
+
+    public void OnButtonSureClick()             //点击改名界面中的“确定”按钮对应调用的函数
+    {
+        //首先联网校验名字是否重复
+        //todo
+
+        PlayerInfo._instance.ChangeName(nameInput.value);
+        changeNameGo.SetActive(false);
+    }
+
+    public void OnButtonCancelClick()           //点击改名界面中的“取消”按钮对应调用的函数
+    {
+        changeNameGo.SetActive(false);
     }
 }

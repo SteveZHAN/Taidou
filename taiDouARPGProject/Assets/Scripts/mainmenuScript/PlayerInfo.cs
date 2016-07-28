@@ -2,6 +2,7 @@
 using System.Collections;
 
 
+
 public enum InfoType
 {
     Name,
@@ -15,6 +16,8 @@ public enum InfoType
     Toughen,
     All
 }
+
+    
 public class PlayerInfo : MonoBehaviour
 {
 //姓名
@@ -41,8 +44,8 @@ public class PlayerInfo : MonoBehaviour
     private int _toughen;
     #endregion
 
-    private float energyTimer = 0;
-    private float toughenTimer = 0;
+    public float energyTimer = 0;
+    public float toughenTimer = 0;
 
     public delegate void OnPlayerInfoChangedEvent(InfoType type);
     public event OnPlayerInfoChangedEvent OnPlayerInfoChanged;
@@ -182,7 +185,7 @@ public class PlayerInfo : MonoBehaviour
         if(this.Toughen < 50)
         {
             toughenTimer += Time.deltaTime;
-            if(energyTimer > 60)
+            if (toughenTimer > 60)
             {
                 Toughen += 1;
                 toughenTimer -= 60;
@@ -211,4 +214,3 @@ public class PlayerInfo : MonoBehaviour
         OnPlayerInfoChanged(InfoType.All);
     }
 }
-

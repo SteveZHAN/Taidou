@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class PlayStatus : MonoBehaviour 
 {
     private UISprite headSprite;
@@ -38,6 +39,11 @@ public class PlayStatus : MonoBehaviour
         PlayerInfo._instance.OnPlayerInfoChanged += this.OnPlayerInfoChanged;
 	}
 
+    void Update()
+    {
+        UpdateEnergyAndToughenShow();       //更新体力和历练恢复时间的计时器
+    }
+
     void OnDestroy()
     {
         PlayerInfo._instance.OnPlayerInfoChanged -= this.OnPlayerInfoChanged;
@@ -62,7 +68,55 @@ public class PlayStatus : MonoBehaviour
         diamondLabel.text = info.Diamond.ToString();
         coinLabel.text = info.Coin.ToString();
 
+        UpdateEnergyAndToughenShow();       //更新体力和历练的显示
+
     }
 
+    //体力&历练、体力&历练恢复时间、体力&历练全部恢复的算法实现
+    void UpdateEnergyAndToughenShow()
+    {
+        PlayerInfo info = PlayerInfo._instance;
 
+        energyLabel.text = info.Energy + "/100";
+        if(info.Energy>=100)
+        {
+            energyRestorePartLabel.text = "00:00:00";
+            energyRestoreAllLabel.text = "00:00:00";
+        }
+        else
+        {
+            int remainTime = 60 - (int)info.energyTimer;
+            string str = remainTime <= 9 ? "0" + remainTime : remainTime.ToString();
+            energyRestorePartLabel.text = "00:00:" + str;
+            
+            //首先总的体力为100 其中一个体力是在最后的00表示 
+            int minutes = (99 - info.Energy);
+            int hours = minutes / 60;
+            minutes = minutes % 60;
+            string hoursStr = hours <= 9 ? "0" + hours : hours.ToString();
+            string minutesStr = minutes <= 9 ? "0" + minutes : minutes.ToString();
+            energyRestoreAllLabel.text = hoursStr + ":" + minutesStr + ":" + str;
+        }
+
+        ToughenLabel.text = info.Toughen + "/50";
+        if(info.Toughen>=50)
+        {
+            ToughenRestorePartLabel.text = "00:00:00";
+            ToughenRestoreAllLabel.text = "00:00:00";
+        }
+        else
+        {
+            int remainTime = 60 - (int)info.toughenTimer;
+            string str = remainTime <= 9 ? "0" + remainTime : remainTime.ToString();
+            ToughenRestorePartLabel.text = "00:00:" + str;
+
+            //首先总的历练为50 最后的两个零使用了一个历练
+            int minutes = (49 - info.Toughen);
+            int hours = minutes / 60;
+            minutes = minutes % 60;
+            string hoursStr = hours <= 9 ? "0" + hours : hours.ToString();
+            string minutesStr = minutes <= 9 ? "0" + minutes : minutes.ToString();
+            ToughenRestoreAllLabel.text = hoursStr + ":" + minutesStr + ":" + str;
+        }
+    }
 }

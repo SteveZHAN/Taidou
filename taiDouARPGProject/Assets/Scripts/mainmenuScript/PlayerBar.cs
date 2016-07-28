@@ -15,6 +15,8 @@ public class PlayerBar : MonoBehaviour
     private UIButton energyPlusButton;
     private UIButton toughenPlusButton;
 
+    private UIButton headButton;
+
     void Awake()
     {
         headSprite = transform.Find("HeadSprite").GetComponent<UISprite>();
@@ -27,6 +29,11 @@ public class PlayerBar : MonoBehaviour
         energyPlusButton = transform.Find("EnergyPlusButton").GetComponent<UIButton>();
         toughenPlusButton = transform.Find("ToughenPlusButton").GetComponent<UIButton>();
         PlayerInfo._instance.OnPlayerInfoChanged += this.OnPlayerInfoChanged;
+
+        headButton = transform.Find("HeadButton").GetComponent<UIButton>();
+
+        EventDelegate ed = new EventDelegate(this, "OnHeadButtonClick");
+        headButton.onClick.Add(ed);
     }
 
     void OnDestroy()
@@ -55,4 +62,8 @@ public class PlayerBar : MonoBehaviour
         toughenLabel.text = info.Toughen + "/50";
     }
 
+    public void OnHeadButtonClick()
+    {
+        PlayStatus._instance.Show();
+    }
 }

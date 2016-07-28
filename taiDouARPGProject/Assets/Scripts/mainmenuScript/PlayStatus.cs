@@ -4,6 +4,8 @@ using System.Collections;
 
 public class PlayStatus : MonoBehaviour 
 {
+    public static PlayStatus _instance;
+
     private UISprite headSprite;
     private UILabel nameLabel;
     private UILabel levelLabel;
@@ -19,8 +21,14 @@ public class PlayStatus : MonoBehaviour
     private UILabel ToughenRestorePartLabel;
     private UILabel ToughenRestoreAllLabel;
 
+    private TweenPosition tween;            //playStatus上的position移动动画
+
+    private UIButton closeButton;           //人物状态信息的关闭按钮Button变量
+
 	void Awake ()
 	{
+        _instance = this;
+
         headSprite = transform.Find("HeadSprite").GetComponent<UISprite>();
         nameLabel = transform.Find("NameLabel").GetComponent<UILabel>();
         levelLabel = transform.Find("LevelLabel").GetComponent<UILabel>();
@@ -37,6 +45,12 @@ public class PlayStatus : MonoBehaviour
         ToughenRestoreAllLabel = transform.Find("ToughenLabel/RestoreAllTime").GetComponent<UILabel>();
 
         PlayerInfo._instance.OnPlayerInfoChanged += this.OnPlayerInfoChanged;
+
+        tween = this.GetComponent<TweenPosition>();
+        closeButton = transform.Find("ButtonClose").GetComponent<UIButton>();
+
+        EventDelegate ed = new EventDelegate(this, "OnButtonCloseClick");
+        closeButton.onClick.Add(ed);
 	}
 
     void Update()
@@ -118,5 +132,15 @@ public class PlayStatus : MonoBehaviour
             string minutesStr = minutes <= 9 ? "0" + minutes : minutes.ToString();
             ToughenRestoreAllLabel.text = hoursStr + ":" + minutesStr + ":" + str;
         }
+    }
+
+    public void Show()
+    {
+        tween.PlayForward();            //移进动画的播放
+    }
+
+    public void OnButtonCloseClick()
+    {
+        tween.PlayReverse();
     }
 }

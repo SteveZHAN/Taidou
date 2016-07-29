@@ -6,8 +6,15 @@ public class InventoryManager : MonoBehaviour
 {
     public TextAsset listInfo;      //在unity中将对应的txt文件赋值，以进行txt文件内容的读取
 
-    private Dictionary<int, Inventory> inventoryDict = new Dictionary<int, Inventory>();        //创建一个字典，以int类型的ID作为字典的Key
+    private Dictionary<int, Inventory> inventoryDict = new Dictionary<int, Inventory>();        //创建一个字典，以int类型的ID作为字典的Key,Inventory作为值
+    private Dictionary<int, InventoryItem> inventoryItemDict = new Dictionary<int, InventoryItem>();    //创建一个字典，以int类型的ID作为字典的Key,InventoryItem作为值
 
+    void Awake()
+    {
+        ReadInventoryInfo();            //物品信息初始化
+        ReadInventoryItemInfo();        //背包信息初始化
+        
+    }
 
     void ReadInventoryInfo()        //为了读取txt文件设置调用的函数
     {
@@ -81,6 +88,50 @@ public class InventoryManager : MonoBehaviour
 
 
             inventoryDict.Add(inventory.ID, inventory);     //每循环一遍，将其添加进字典，Key为ID，值为Inventory类型的inventory
+        }
+    }
+
+    //完成角色背包信息的初始化，获得拥有的物品
+    void ReadInventoryItemInfo()
+    {
+        //todo 需要链接服务器，取得当前角色拥有的物品信息
+
+        //随机生成主角拥有的物品
+        for(int i=0;i<20;i++)
+        {
+            int id = Random.Range(1001, 1020);
+            Inventory I = null;
+            inventoryDict.TryGetValue(id, out I);       //根据字典取值。TryGetValue(,)中第一个参数指字典的Key，取Key对应的value存储于第二个参数指
+
+            //关于it.Count即数量，对于Drug的数量可以放在一个格子，然后count进行+1；而对于Equip，由于其等级不同，因此需放在单独的格子里。因此对于it.Count要进行判断
+            if (I.InventoryTYPE == InventoryType.Equip)
+            {
+                InventoryItem it = new InventoryItem();
+                it.Inventory = I;
+                it.Level = Random.Range(1, 10);
+                it.Count = 1;
+                inventoryItemDict.Add(id, it);      //每循环一遍，将其添加进字典，Key为ID，值为InventoryItem类型的inventoryItem
+            }
+            else
+            {
+                //先判断背包里面是否已经存在
+                InventoryItem it = null;
+                bool isExit = inventoryItemDict.TryGetValue(id, out it);  //根据字典取值,返回一个bool值
+                if(isExit)          //bool返回值为true，说明已存在，计数器+1即可
+                {
+                    it.Count++;
+                }
+                else                //bool返回值为false，说明不存在，生成一个
+                {
+                    it = new InventoryItem();
+                    it.Inventory = I;   
+                    it.Count = 1;
+                    inventoryItemDict.Add(id, it);      //每循环一遍，将其添加进字典，Key为ID，值为InventoryItem类型的inventoryItem
+                }
+            }
+
+            
+
         }
     }
 }

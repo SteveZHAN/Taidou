@@ -4,7 +4,8 @@ using System.Collections;
 public enum InventoryType
 {
     Equip,
-    Drug
+    Drug,
+    Box
 }
 
 public enum EquipType

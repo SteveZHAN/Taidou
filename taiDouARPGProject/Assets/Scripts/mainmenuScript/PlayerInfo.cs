@@ -42,6 +42,17 @@ public class PlayerInfo : MonoBehaviour
     private int _coin;
     private int _energy;
     private int _toughen;
+
+    private int _hp;
+    private int _damage;
+    private int _helmID;
+    private int _clothID;
+    private int _weaponID;
+    private int _shoesID;
+    private int _necklaceID;
+    private int _braceletID;
+    private int _ringID;
+    private int _wingID;
     #endregion
 
     public float energyTimer = 0;
@@ -151,6 +162,58 @@ public class PlayerInfo : MonoBehaviour
             _toughen = value;
         }
     }
+
+    public int HP
+    {
+        get { return _hp; }
+        set { _hp = value; }
+    }
+    public int Damage
+    {
+        get { return _damage; }
+        set { _damage = value; }
+    }
+    public int HelmID
+    {
+        get { return _helmID; }
+        set { _helmID = value; }
+    }
+    public int ClothID
+    {
+        get { return _clothID; }
+        set { _clothID = value; }
+    }
+    public int WeaponID
+    {
+        get { return _weaponID; }
+        set { _weaponID = value; }
+    }
+    public int ShoesID
+    {
+        get { return _shoesID; }
+        set { _shoesID = value; }
+    }
+    public int NecklaceID
+    {
+        get { return _necklaceID; }
+        set { _necklaceID = value; }
+    }
+    public int BraceletID
+    {
+        get { return _braceletID; }
+        set { _braceletID = value; }
+    }
+    public int RingID
+    {
+        get { return _ringID; }
+        set { _ringID = value; }
+    }
+    public int WingID
+    {
+        get { return _wingID; }
+        set { _wingID = value; }
+    }
+
     #endregion
 
     #region unity Event

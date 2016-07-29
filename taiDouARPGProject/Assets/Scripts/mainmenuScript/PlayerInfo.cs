@@ -45,14 +45,14 @@ public class PlayerInfo : MonoBehaviour
 
     private int _hp;
     private int _damage;
-    private int _helmID;
-    private int _clothID;
-    private int _weaponID;
-    private int _shoesID;
-    private int _necklaceID;
-    private int _braceletID;
-    private int _ringID;
-    private int _wingID;
+    private int _helmID = 0;            //装备ID=0表示没有穿上此装备            
+    private int _clothID = 0;
+    private int _weaponID = 0;
+    private int _shoesID = 0;
+    private int _necklaceID = 0;
+    private int _braceletID = 0;
+    private int _ringID = 0;
+    private int _wingID = 0;
     #endregion
 
     public float energyTimer = 0;
@@ -271,8 +271,19 @@ public class PlayerInfo : MonoBehaviour
         this.HeadPortrait = "头像底板女性";
         this.Level = 12;
         this.Name = "text";
-        this.Power = 1745;
         this.Toughen = 34;
+
+        
+        this.BraceletID = 1001;
+        this.WingID = 1002;
+        this.RingID = 1003;
+        this.ClothID = 1004;
+        this.HelmID = 1005;
+        this.WeaponID = 1006;
+        this.NecklaceID = 1007;
+        this.ShoesID = 1008;
+
+        InitHPDamagePower();            //装备对生命值、伤害、攻击力的影响的函数初始化
 
         OnPlayerInfoChanged(InfoType.All);
     }
@@ -281,5 +292,47 @@ public class PlayerInfo : MonoBehaviour
     {
         this.Name = newName;
         OnPlayerInfoChanged(InfoType.Name);
+    }
+
+    void InitHPDamagePower()        //初始化是否穿上装备对生命值、伤害、攻击力的影响
+    {
+        this.HP = this.Level * 100;
+        this.Damage = this.Level * 50;
+        this.Power = this.HP + this.Damage;
+
+        //对各个装备是否穿上(由对应ID是否为0决定)调用函数进行生命值、伤害、攻击力的增加
+        PutonEquip(BraceletID);
+        PutonEquip(WingID);
+        PutonEquip(RingID);
+        PutonEquip(ClothID);
+        PutonEquip(HelmID);
+        PutonEquip(WeaponID);
+        PutonEquip(NecklaceID);
+        PutonEquip(ShoesID);
+    }
+
+    void PutonEquip(int id)             //使用装备对生命值、伤害、攻击力等数值的影响
+    {
+        if (id == 0)                //如果ID=0，就说明没有穿上装备，没有对生命值、伤害、攻击力有影响，直接return
+            return;
+
+        Inventory inventory = null;
+        bool isExit = InventoryManager._instance.inventoryDict.TryGetValue(id, out inventory);    //使用单例模式，根据字典取值,返回bool判断值
+
+        this.HP += inventory.HP;
+        this.Damage += inventory.Damage;
+        this.Power += inventory.Power;
+    }
+
+    void PutoffEquip(int id)            //卸下装备对生命值、伤害、攻击力等数值的影响
+    {
+        if (id == 0)                //如果ID=0，就说明没有穿上装备，没有对生命值、伤害、攻击力有影响，直接return
+            return;
+
+        Inventory inventory = null;
+        InventoryManager._instance.inventoryDict.TryGetValue(id, out inventory);    //使用单例模式，根据字典取值。id指字典的Key，取Key对应的value存储于inventory
+        this.HP -= inventory.HP;
+        this.Damage -= inventory.Damage;
+        this.Power -= inventory.Power;
     }
 }

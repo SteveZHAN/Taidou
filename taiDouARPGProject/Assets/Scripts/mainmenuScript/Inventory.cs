@@ -30,7 +30,7 @@ public class Inventory
     private int starLevel = 1;              //星级
     private int quality = 1;                //品质
     private int damage = 0;                 //伤害
-    private int hp = 0;                     //声明
+    private int hp = 0;                     //生命
     private int power = 0;                  //战斗力
     private InfoType infoType;              //作用类型，表示作用在哪个属性之上
     private int applyValue;                 //作用值

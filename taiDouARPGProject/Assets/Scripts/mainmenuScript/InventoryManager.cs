@@ -4,13 +4,17 @@ using System.Collections.Generic;       //为使用字典Dictionary而要加载�
 
 public class InventoryManager : MonoBehaviour 
 {
+    public static InventoryManager _instance;           //声明单例模式
+
     public TextAsset listInfo;      //在unity中将对应的txt文件赋值，以进行txt文件内容的读取
 
-    private Dictionary<int, Inventory> inventoryDict = new Dictionary<int, Inventory>();        //创建一个字典，以int类型的ID作为字典的Key,Inventory作为值
-    private Dictionary<int, InventoryItem> inventoryItemDict = new Dictionary<int, InventoryItem>();    //创建一个字典，以int类型的ID作为字典的Key,InventoryItem作为值
+    public Dictionary<int, Inventory> inventoryDict = new Dictionary<int, Inventory>();        //创建一个字典，以int类型的ID作为字典的Key,Inventory作为值
+    public Dictionary<int, InventoryItem> inventoryItemDict = new Dictionary<int, InventoryItem>();    //创建一个字典，以int类型的ID作为字典的Key,InventoryItem作为值
 
     void Awake()
     {
+        _instance = this;               //单例模式
+
         ReadInventoryInfo();            //物品信息初始化
         ReadInventoryItemInfo();        //背包信息初始化
         
@@ -129,9 +133,6 @@ public class InventoryManager : MonoBehaviour
                     inventoryItemDict.Add(id, it);      //每循环一遍，将其添加进字典，Key为ID，值为InventoryItem类型的inventoryItem
                 }
             }
-
-            
-
         }
     }
 }

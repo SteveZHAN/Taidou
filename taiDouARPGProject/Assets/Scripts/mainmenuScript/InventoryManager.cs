@@ -13,13 +13,19 @@ public class InventoryManager : MonoBehaviour
     //public Dictionary<int, InventoryItem> inventoryItemDict = new Dictionary<int, InventoryItem>();    //创建一个字典，以int类型的ID作为字典的Key,InventoryItem作为值
     public List<InventoryItem> inventoryItemList = new List<InventoryItem>();
 
+    public delegate void OnInventoryChangeEvent();
+    public event OnInventoryChangeEvent OnInventoryChange;
+
     void Awake()
     {
         _instance = this;               //单例模式
 
         ReadInventoryInfo();          //物品信息初始化
+    }
+
+    void Start()
+    {
         ReadInventoryItemInfo();        //背包信息初始化
-        
     }
 
     void ReadInventoryInfo()        //为了读取txt文件设置调用的函数
@@ -148,6 +154,7 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
+        OnInventoryChange();
     }
 }
 

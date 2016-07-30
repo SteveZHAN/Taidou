@@ -26,7 +26,7 @@ public class InventoryUI : MonoBehaviour
         for(int i=0;i<InventoryManager._instance.inventoryItemList.Count;i++)
         {
             InventoryItem it = InventoryManager._instance.inventoryItemList[i];
-            Debug.Log(i);
+            //Debug.Log(i);         //for test
             itemUIList[i].SetInventoryItem(it);     //SetInventoryItem方法实现将it设置进itemUIList[i]中,此方法在InventoryItemUI中声明
         }
         for(int i=InventoryManager._instance.inventoryItemList.Count;i<itemUIList.Count;i++)

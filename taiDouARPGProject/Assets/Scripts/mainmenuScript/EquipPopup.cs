@@ -12,6 +12,7 @@ public class EquipPopup : MonoBehaviour
     private UILabel hpLabel;
     private UILabel powerLabel;
     private UILabel desLabel;
+    private UILabel levelLabel;
 
     void Awake()
     {
@@ -21,7 +22,8 @@ public class EquipPopup : MonoBehaviour
         damageLabel = transform.Find("DamageLabel/Label").GetComponent<UILabel>();
         hpLabel = transform.Find("HpLabel/Label").GetComponent<UILabel>();
         powerLabel = transform.Find("PowerLabel/Label").GetComponent<UILabel>();
-        desLabel = transform.Find("DesLabel/Label").GetComponent<UILabel>();
+        desLabel = transform.Find("DesLabel").GetComponent<UILabel>();
+        levelLabel = transform.Find("LevelLabel/Label").GetComponent<UILabel>();
     }
 
     public void Show(InventoryItem it,bool isLeft=true)
@@ -43,5 +45,6 @@ public class EquipPopup : MonoBehaviour
         hpLabel.text = it.Inventory.HP.ToString();
         powerLabel.text = it.Inventory.Power.ToString();
         desLabel.text = it.Inventory.Des;
+        levelLabel.text = it.Level.ToString();
     }
 }

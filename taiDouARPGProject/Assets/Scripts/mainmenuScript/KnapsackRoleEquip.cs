@@ -3,6 +3,8 @@ using System.Collections;
 
 public class KnapsackRoleEquip : MonoBehaviour 
 {
+    private InventoryItem it;
+
     private UISprite _sprite;
     private UISprite Sprite
     {
@@ -21,6 +23,23 @@ public class KnapsackRoleEquip : MonoBehaviour
         if(isExit)
         {
             Sprite.spriteName = inventory.ICON;
+        }
+    }
+
+    public void SetInventoryItem(InventoryItem it)
+    {
+        this.it = it;
+        Sprite.spriteName = it.Inventory.ICON;
+    }
+
+    public void OnPress(bool isPress)
+    {
+        if(isPress)
+        {
+            object[] objectArray=new object[2];
+            objectArray[0]=it;
+            objectArray[1]=false;
+            transform.parent.parent.SendMessage("OnInventoryClick", objectArray);
         }
     }
 }

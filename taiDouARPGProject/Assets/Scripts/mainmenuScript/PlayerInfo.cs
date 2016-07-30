@@ -14,6 +14,9 @@ public enum InfoType
     Coin,
     Energy,
     Toughen,
+    HP,
+    Damage,
+    Equip,
     All
 }
 

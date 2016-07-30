@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;       //为使用字典Dictionary而要加载的库
 
+
 public class InventoryManager : MonoBehaviour 
 {
     public static InventoryManager _instance;           //声明单例模式
@@ -9,13 +10,14 @@ public class InventoryManager : MonoBehaviour
     public TextAsset listInfo;      //在unity中将对应的txt文件赋值，以进行txt文件内容的读取
 
     public Dictionary<int, Inventory> inventoryDict = new Dictionary<int, Inventory>();        //创建一个字典，以int类型的ID作为字典的Key,Inventory作为值
-    public Dictionary<int, InventoryItem> inventoryItemDict = new Dictionary<int, InventoryItem>();    //创建一个字典，以int类型的ID作为字典的Key,InventoryItem作为值
+    //public Dictionary<int, InventoryItem> inventoryItemDict = new Dictionary<int, InventoryItem>();    //创建一个字典，以int类型的ID作为字典的Key,InventoryItem作为值
+    public List<InventoryItem> inventoryItemList = new List<InventoryItem>();
 
     void Awake()
     {
         _instance = this;               //单例模式
 
-        ReadInventoryInfo();            //物品信息初始化
+        ReadInventoryInfo();          //物品信息初始化
         ReadInventoryItemInfo();        //背包信息初始化
         
     }
@@ -37,7 +39,7 @@ public class InventoryManager : MonoBehaviour
                 case "Equip":
                     inventory.InventoryTYPE = InventoryType.Equip;
                     break;
-                case "Daug":
+                case "Drug":
                     inventory.InventoryTYPE = InventoryType.Drug;
                     break;
                 case "Box":
@@ -74,15 +76,18 @@ public class InventoryManager : MonoBehaviour
                         break;
                 }
             }
+            //Debug.Log(itemStr);
             //售价 星级 品质 伤害 生命 战斗力 作用类型 作用值 
             inventory.Price = int.Parse(proArray[5]);       //整型类型的Price，使用int.Parse()将字符串proArray[5]转换为int类型，再进行赋值
             if (inventory.InventoryTYPE == InventoryType.Equip)        //星级 品质 伤害 生命 战斗力 都要求物品类型得是Equip
             {
+                
                 inventory.StarLevel = int.Parse(proArray[6]);
                 inventory.Quality = int.Parse(proArray[7]);
                 inventory.Damage = int.Parse(proArray[8]);
                 inventory.HP = int.Parse(proArray[9]);
                 inventory.Power = int.Parse(proArray[10]);
+               
             }
             if (inventory.InventoryTYPE == InventoryType.Drug)     //作用类型要求物品类型是Drug才行
             {
@@ -114,13 +119,22 @@ public class InventoryManager : MonoBehaviour
                 it.Inventory = I;
                 it.Level = Random.Range(1, 10);
                 it.Count = 1;
-                inventoryItemDict.Add(id, it);      //每循环一遍，将其添加进字典，Key为ID，值为InventoryItem类型的inventoryItem
+                inventoryItemList.Add(it);      //每循环一遍，将其添加进字典，Key为ID，值为InventoryItem类型的inventoryItem
             }
             else
             {
                 //先判断背包里面是否已经存在
                 InventoryItem it = null;
-                bool isExit = inventoryItemDict.TryGetValue(id, out it);  //根据字典取值,返回一个bool值
+                bool isExit = false;
+                foreach(InventoryItem temp in inventoryItemList)
+                {
+                    if(temp.Inventory.ID==id)
+                    {
+                        isExit = true;
+                        it = temp;
+                        break;
+                    }
+                }
                 if(isExit)          //bool返回值为true，说明已存在，计数器+1即可
                 {
                     it.Count++;
@@ -130,9 +144,12 @@ public class InventoryManager : MonoBehaviour
                     it = new InventoryItem();
                     it.Inventory = I;   
                     it.Count = 1;
-                    inventoryItemDict.Add(id, it);      //每循环一遍，将其添加进字典，Key为ID，值为InventoryItem类型的inventoryItem
+                    inventoryItemList.Add(it);      //每循环一遍，将其添加进字典，Key为ID，值为InventoryItem类型的inventoryItem
                 }
             }
         }
     }
 }
+
+
+    

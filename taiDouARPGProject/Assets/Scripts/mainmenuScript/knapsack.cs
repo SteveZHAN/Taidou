@@ -15,9 +15,10 @@ public class knapsack : MonoBehaviour
     {
         InventoryItem it = objectArray[0] as InventoryItem;
         bool isLeft = (bool)objectArray[1];
+        InventoryItemUI itUI = objectArray[2] as InventoryItemUI;
 
         if (it.Inventory.InventoryTYPE == InventoryType.Equip)
-            equipPopup.Show(it, isLeft);
+            equipPopup.Show(it,itUI,isLeft);
         else
             inventoryPopup.Show(it);
     }

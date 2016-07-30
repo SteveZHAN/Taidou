@@ -28,6 +28,8 @@ public class KnapsackRoleEquip : MonoBehaviour
 
     public void SetInventoryItem(InventoryItem it)
     {
+        if (it == null)
+            return;
         this.it = it;
         Sprite.spriteName = it.Inventory.ICON;
     }

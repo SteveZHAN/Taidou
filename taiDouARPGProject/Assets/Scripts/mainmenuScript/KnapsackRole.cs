@@ -7,7 +7,7 @@ public class KnapsackRole : MonoBehaviour
     private KnapsackRoleEquip clothEquip;
     private KnapsackRoleEquip weaponEquip;
     private KnapsackRoleEquip shoesEquip;
-    private KnapsackRoleEquip necklecaEquip;
+    private KnapsackRoleEquip necklaceEquip;
     private KnapsackRoleEquip braceletEquip;
     private KnapsackRoleEquip ringEquip;
     private KnapsackRoleEquip wingEquip;
@@ -22,7 +22,7 @@ public class KnapsackRole : MonoBehaviour
         clothEquip = transform.Find("ClothSprite").GetComponent<KnapsackRoleEquip>();
         weaponEquip = transform.Find("WeaponSprite").GetComponent<KnapsackRoleEquip>();
         shoesEquip = transform.Find("ShoesSprite").GetComponent<KnapsackRoleEquip>();
-        necklecaEquip = transform.Find("NecklaceSprite").GetComponent<KnapsackRoleEquip>();
+        necklaceEquip = transform.Find("NecklaceSprite").GetComponent<KnapsackRoleEquip>();
         braceletEquip = transform.Find("BraceletSprite").GetComponent<KnapsackRoleEquip>();
         ringEquip = transform.Find("RingSprite").GetComponent<KnapsackRoleEquip>();
         wingEquip = transform.Find("WingSprite").GetComponent<KnapsackRoleEquip>();
@@ -42,7 +42,7 @@ public class KnapsackRole : MonoBehaviour
 
     void OnPlayerInfoChanged(InfoType type)
     {
-        if (type == InfoType.All || type == InfoType.HP || type == InfoType.Damage || type == InfoType.Exp)
+        if (type == InfoType.All || type == InfoType.HP || type == InfoType.Damage || type == InfoType.Exp || type == InfoType.Equip)
             UpdateShow();
     }
 
@@ -58,6 +58,15 @@ public class KnapsackRole : MonoBehaviour
         //braceletEquip.setId(info.BraceletID);
         //ringEquip.setId(info.RingID);
         //wingEquip.setId(info.WingID);
+
+        helmEquip.SetInventoryItem(info.helmInventoryItem);
+        clothEquip.SetInventoryItem(info.clothInventoryItem);
+        weaponEquip.SetInventoryItem(info.weaponInventoryItem);
+        shoesEquip.SetInventoryItem(info.shoesInventoryItem);
+        necklaceEquip.SetInventoryItem(info.necklaceInventoryItem);
+        braceletEquip.SetInventoryItem(info.braceletInventoryItem);
+        ringEquip.SetInventoryItem(info.ringInventoryItem);
+        wingEquip.SetInventoryItem(info.wingInventoryItem);
 
         hpLabel.text = info.HP.ToString();
         damageLabel.text = info.Damage.ToString();

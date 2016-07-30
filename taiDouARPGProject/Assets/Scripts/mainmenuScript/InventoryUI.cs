@@ -4,10 +4,13 @@ using System.Collections.Generic;
 
 public class InventoryUI : MonoBehaviour 
 {
+    public static InventoryUI _instance;        //声明为单例模式，便于PlayerInfo中DressOn()方法的调用
+
     public List<InventoryItemUI> itemUIList = new List<InventoryItemUI>();
 
     void Awake()
     {
+        _instance = this;
         InventoryManager._instance.OnInventoryChange += this.OnInventoryChange;
     }
 
@@ -34,4 +37,9 @@ public class InventoryUI : MonoBehaviour
             itemUIList[i].Clear();     
         }
     }  
+
+    public void AddInventoryItem(InventoryItem it)
+    {
+
+    }
 }

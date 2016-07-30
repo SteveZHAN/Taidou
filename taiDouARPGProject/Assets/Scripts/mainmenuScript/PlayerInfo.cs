@@ -307,6 +307,91 @@ public class PlayerInfo : MonoBehaviour
         OnPlayerInfoChanged(InfoType.Name);
     }
 
+    public void DressOn(InventoryItem it)
+    {
+        it.IsDressed = true;
+        //首先检测有咩有穿上相同类型的装备
+        bool isDressed = false;
+        InventoryItem inventoryItemDressed = null;
+        switch (it.Inventory.EquipTYPE)
+        {
+            case EquipType.Bracelet:
+                if (braceletInventoryItem != null)
+                {
+                    isDressed = true;
+                    inventoryItemDressed = braceletInventoryItem;
+                }
+                    braceletInventoryItem = it;
+                break;
+            case EquipType.Cloth:
+                if (clothInventoryItem != null)
+                {
+                    isDressed = true;
+                    inventoryItemDressed = clothInventoryItem;
+                }
+                    clothInventoryItem = it;
+                break;
+            case EquipType.Helm:
+                if (helmInventoryItem != null)
+                {
+                    isDressed = true;
+                    inventoryItemDressed = helmInventoryItem;
+                }
+                    helmInventoryItem = it;
+                break;
+            case EquipType.Necklace:
+                if (necklaceInventoryItem != null)
+                {
+                    isDressed = true;
+                    inventoryItemDressed = necklaceInventoryItem;
+                }
+                    necklaceInventoryItem = it;
+                break;
+            case EquipType.Ring:
+                if (ringInventoryItem != null)
+                {
+                    isDressed = true;
+                    inventoryItemDressed = ringInventoryItem;
+                }
+                    ringInventoryItem = it;
+                break;
+            case EquipType.Shoes:
+                if (shoesInventoryItem != null)
+                {
+                    isDressed = true;
+                    inventoryItemDressed = shoesInventoryItem;
+                }
+                    shoesInventoryItem = it;
+                break;
+            case EquipType.Weapon:
+                if (weaponInventoryItem != null)
+                {
+                    isDressed = true;
+                    inventoryItemDressed = weaponInventoryItem;
+                }
+                    weaponInventoryItem = it;
+                break;
+            case EquipType.Wing:
+                if (wingInventoryItem != null)
+                {
+                    isDressed = true;
+                    inventoryItemDressed = wingInventoryItem;
+                }
+                    wingInventoryItem = it;
+                break;
+        }
+        //有
+        if (isDressed)
+        {
+            inventoryItemDressed.IsDressed = false;
+            InventoryUI._instance.AddInventoryItem(inventoryItemDressed);       //使用InventoryUI中的单例模式，进而实现AddInventoryItem()的调用
+        }
+        OnPlayerInfoChanged(InfoType.Equip);
+        //把已经存在的脱掉 放到背包
+        //没有
+        //直接穿上
+    }
+
     void InitHPDamagePower()        //初始化是否穿上装备对生命值、伤害、攻击力的影响
     {
         this.HP = this.Level * 100;

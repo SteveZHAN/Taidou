@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class InventoryItemUI : MonoBehaviour 
 {
     private UISprite sprite;
     private UILabel label;
-    private InventoryItem it;
+    public InventoryItem it;
 
     #region get method
     private UISprite Sprite

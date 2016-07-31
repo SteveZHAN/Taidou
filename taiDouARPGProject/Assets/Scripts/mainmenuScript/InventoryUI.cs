@@ -6,7 +6,7 @@ public class InventoryUI : MonoBehaviour
 {
     public static InventoryUI _instance;        //声明为单例模式，便于PlayerInfo中DressOn()方法的调用
 
-    public List<InventoryItemUI> itemUIList = new List<InventoryItemUI>();
+    public List<InventoryItemUI> itemUIList = new List<InventoryItemUI>();      //所有的物品格子
 
     void Awake()
     {
@@ -38,8 +38,18 @@ public class InventoryUI : MonoBehaviour
         }
     }  
 
-    public void AddInventoryItem(InventoryItem it)
+    //todo
+    public void AddInventoryItem(InventoryItem it)          //添加已有类型的装备时，将装备上的这类型Equip卸下返回添加到物品栏中
     {
-
+        foreach (InventoryItemUI itUI in itemUIList)
+        {
+            if (itUI.it == null)
+            {
+                itUI.SetInventoryItem(it);
+                break;
+            }
+        }
     }
 }
+
+

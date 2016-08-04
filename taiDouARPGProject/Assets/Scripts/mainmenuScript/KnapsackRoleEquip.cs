@@ -42,7 +42,7 @@ public class KnapsackRoleEquip : MonoBehaviour
     public void OnPress(bool isPress)
     {
         //Debug.Log("KKKKK");
-        if(isPress)
+        if(isPress & it!=null)
         {
             object[] objectArray=new object[3];
             objectArray[0]=it;

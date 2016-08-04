@@ -19,6 +19,7 @@ public class EquipPopup : MonoBehaviour
 
     private UIButton closeButton;
     private UIButton equipButton;
+    private UIButton upgradeButton;
 
     private bool isLeft = true;
     void Awake()
@@ -35,12 +36,16 @@ public class EquipPopup : MonoBehaviour
 
         closeButton = transform.Find("CloseButton").GetComponent<UIButton>();
         equipButton = transform.Find("EquipButton").GetComponent<UIButton>();
+        upgradeButton = transform.Find("UpgradeButton").GetComponent<UIButton>();
 
         EventDelegate ed1 = new EventDelegate(this, "OnClose");
         closeButton.onClick.Add(ed1);
 
         EventDelegate ed2 = new EventDelegate(this, "OnEquip");
         equipButton.onClick.Add(ed2);
+
+        EventDelegate ed3 = new EventDelegate(this, "OnUpgrade");
+        upgradeButton.onClick.Add(ed3);
     }
 
  
@@ -98,6 +103,23 @@ public class EquipPopup : MonoBehaviour
         ClearObject();
         gameObject.SetActive(false);
     }
+
+    //点击升级按钮
+    public void OnUpgrade()
+    {
+        int coinNeed = (it.Level + 1) * it.Inventory.Price;
+        bool isSuccess = PlayerInfo._instance.GetCoin(coinNeed);
+        if(isSuccess)
+        {
+            it.Level += 1;
+            levelLabel.text = it.Level.ToString();
+        }
+        else
+        {
+            //给出提示信息
+        }
+    }
+    
 
     void ClearObject()      //清空对象
     {

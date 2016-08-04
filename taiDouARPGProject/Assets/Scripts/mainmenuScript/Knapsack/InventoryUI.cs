@@ -9,6 +9,9 @@ public class InventoryUI : MonoBehaviour
     public List<InventoryItemUI> itemUIList = new List<InventoryItemUI>();      //所有的物品格子
 
     private UIButton clearupButton;
+    private UILabel inventoryLabel;
+
+    private int count;          //表示目前有多少个格子是有物品的
 
     void Awake()
     {
@@ -16,6 +19,7 @@ public class InventoryUI : MonoBehaviour
         InventoryManager._instance.OnInventoryChange += this.OnInventoryChange;
 
         clearupButton = transform.Find("ButtonClearup").GetComponent<UIButton>();
+        inventoryLabel=transform.Find("InventoryLabel").GetComponent<UILabel>();
 
         EventDelegate ed = new EventDelegate(this, "OnClearup");
         clearupButton.onClick.Add(ed);
@@ -45,13 +49,27 @@ public class InventoryUI : MonoBehaviour
             }
             
         }
+        count = temp;
         for (int i = temp; i < itemUIList.Count; i++)
         {
             itemUIList[i].Clear();     
         }
-    }  
+        inventoryLabel.text = count + "/32";
+    }
 
-    //todo
+    public void UpdateCount()
+    {
+        count = 0;
+        foreach (InventoryItemUI itUI in itemUIList)
+        {
+            if (itUI.it != null)
+            {
+                count++;
+            }
+        }
+        inventoryLabel.text = count + "/32";
+    }
+
     public void AddInventoryItem(InventoryItem it)          //添加已有类型的装备时，将装备上的这类型Equip卸下返回添加到物品栏中
     {
         foreach (InventoryItemUI itUI in itemUIList)
@@ -59,9 +77,11 @@ public class InventoryUI : MonoBehaviour
             if (itUI.it == null)
             {
                 itUI.SetInventoryItem(it);
+                count++;
                 break;
             }
         }
+        inventoryLabel.text = count + "/32";
     }
 
     //整理
@@ -69,6 +89,7 @@ public class InventoryUI : MonoBehaviour
     {
         UpdateShow();
     }
+
 }
 
 

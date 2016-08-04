@@ -117,6 +117,7 @@ public class EquipPopup : MonoBehaviour
         else
         {
             //给出提示信息
+            MessageManager._instance.ShowMessage("金币不足，无法升级");
         }
     }
     

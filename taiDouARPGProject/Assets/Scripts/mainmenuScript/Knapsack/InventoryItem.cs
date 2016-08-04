@@ -26,6 +26,6 @@ public class InventoryItem
     public bool IsDressed
     {
         get { return isDressed; }
-        set { isDressed = true; }
+        set { isDressed = value; }
     }
 }

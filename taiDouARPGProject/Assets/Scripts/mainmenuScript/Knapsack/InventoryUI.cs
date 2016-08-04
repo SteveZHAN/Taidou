@@ -8,10 +8,17 @@ public class InventoryUI : MonoBehaviour
 
     public List<InventoryItemUI> itemUIList = new List<InventoryItemUI>();      //所有的物品格子
 
+    private UIButton clearupButton;
+
     void Awake()
     {
         _instance = this;
         InventoryManager._instance.OnInventoryChange += this.OnInventoryChange;
+
+        clearupButton = transform.Find("ButtonClearup").GetComponent<UIButton>();
+
+        EventDelegate ed = new EventDelegate(this, "OnClearup");
+        clearupButton.onClick.Add(ed);
     }
 
     void Destroy()
@@ -26,13 +33,19 @@ public class InventoryUI : MonoBehaviour
 
     void UpdateShow()
     {
+        int temp = 0;
         for(int i=0;i<InventoryManager._instance.inventoryItemList.Count;i++)
         {
             InventoryItem it = InventoryManager._instance.inventoryItemList[i];
-            //Debug.Log(i);         //for test
-            itemUIList[i].SetInventoryItem(it);     //SetInventoryItem方法实现将it设置进itemUIList[i]中,此方法在InventoryItemUI中声明
+
+            if (it.IsDressed == false)      //当装备没有穿上时才执行代码块
+            {
+                itemUIList[temp].SetInventoryItem(it);     //SetInventoryItem方法实现将it设置进itemUIList[i]中,此方法在InventoryItemUI中声明
+                temp++;
+            }
+            
         }
-        for(int i=InventoryManager._instance.inventoryItemList.Count;i<itemUIList.Count;i++)
+        for (int i = temp; i < itemUIList.Count; i++)
         {
             itemUIList[i].Clear();     
         }
@@ -49,6 +62,12 @@ public class InventoryUI : MonoBehaviour
                 break;
             }
         }
+    }
+
+    //整理
+    void OnClearup()
+    {
+        UpdateShow();
     }
 }
 

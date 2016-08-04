@@ -392,6 +392,65 @@ public class PlayerInfo : MonoBehaviour
         //直接穿上
     }
 
+    public void DressOff(InventoryItem it)
+    {
+        switch (it.Inventory.EquipTYPE)
+        {
+            case EquipType.Bracelet:
+                if (braceletInventoryItem != null)
+                {
+                    braceletInventoryItem = null;
+                }
+                break;
+            case EquipType.Cloth:
+                if (clothInventoryItem != null)
+                {
+                    clothInventoryItem = null;
+                }
+                break;
+            case EquipType.Helm:
+                if (helmInventoryItem != null)
+                {
+                    helmInventoryItem = null;
+                }
+                break;
+            case EquipType.Necklace:
+                if (necklaceInventoryItem != null)
+                {
+                    necklaceInventoryItem = null;
+                }
+                break;
+            case EquipType.Ring:
+                if (ringInventoryItem != null)
+                {
+                    ringInventoryItem = null;
+                }
+                break;
+            case EquipType.Shoes:
+                if (shoesInventoryItem != null)
+                {
+                    shoesInventoryItem = null;
+                }
+                break;
+            case EquipType.Weapon:
+                if (weaponInventoryItem != null)
+                {
+                    weaponInventoryItem = null;
+                }
+                break;
+            case EquipType.Wing:
+                if (wingInventoryItem != null)
+                {
+                    wingInventoryItem = null;
+                }
+                break;
+        }
+
+        it.IsDressed = false;
+        InventoryUI._instance.AddInventoryItem(it);
+        OnPlayerInfoChanged(InfoType.Equip);
+    }
+
     void InitHPDamagePower()        //初始化是否穿上装备对生命值、伤害、攻击力的影响
     {
         this.HP = this.Level * 100;

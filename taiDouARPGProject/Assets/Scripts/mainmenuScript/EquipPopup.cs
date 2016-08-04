@@ -5,6 +5,7 @@ public class EquipPopup : MonoBehaviour
 {
     private InventoryItem it;
     private InventoryItemUI itUI;
+    private KnapsackRoleEquip roleEquip;
 
     private UISprite equipSprite;
     private UILabel nameLabel;
@@ -14,10 +15,12 @@ public class EquipPopup : MonoBehaviour
     private UILabel powerLabel;
     private UILabel desLabel;
     private UILabel levelLabel;
+    private UILabel btnLabel;
 
     private UIButton closeButton;
     private UIButton equipButton;
 
+    private bool isLeft = true;
     void Awake()
     {
         equipSprite = transform.Find("EquipBg/Sprite").GetComponent<UISprite>();
@@ -28,6 +31,7 @@ public class EquipPopup : MonoBehaviour
         powerLabel = transform.Find("PowerLabel/Label").GetComponent<UILabel>();
         desLabel = transform.Find("DesLabel").GetComponent<UILabel>();
         levelLabel = transform.Find("LevelLabel/Label").GetComponent<UILabel>();
+        btnLabel = transform.Find("EquipButton/Label").GetComponent<UILabel>();
 
         closeButton = transform.Find("CloseButton").GetComponent<UIButton>();
         equipButton = transform.Find("EquipButton").GetComponent<UIButton>();
@@ -39,18 +43,26 @@ public class EquipPopup : MonoBehaviour
         equipButton.onClick.Add(ed2);
     }
 
-    public void Show(InventoryItem it, InventoryItemUI itUI, bool isLeft = true)
+ 
+    public void Show(InventoryItem it, InventoryItemUI itUI, KnapsackRoleEquip roleEquip, bool isLeft = true)
     {
         gameObject.SetActive(true);
 
         this.it = it;
         this.itUI = itUI;
+        this.roleEquip = roleEquip;
         Vector3 pos = transform.localPosition;
+        this.isLeft = isLeft;
         //判断左右侧显示
-        if(isLeft)
+        if(isLeft){
             transform.localPosition = new Vector3(-Mathf.Abs(pos.x), pos.y, pos.z);
+            btnLabel.text = "装备";
+        }
         else
+        {
             transform.localPosition = new Vector3(Mathf.Abs(pos.x), pos.y, pos.z);
+            btnLabel.text = "卸下";
+        }
 
         equipSprite.spriteName = it.Inventory.ICON;
         nameLabel.text = it.Inventory.Name;
@@ -62,6 +74,7 @@ public class EquipPopup : MonoBehaviour
         levelLabel.text = it.Level.ToString();
     }
 
+
     public void OnClose()
     {
         ClearObject();
@@ -69,10 +82,19 @@ public class EquipPopup : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    //点击卸下按钮和装备按钮的时候触发
     public void OnEquip()
     {
-        itUI.Clear();
-        PlayerInfo._instance.DressOn(it);
+        if (isLeft)         //从背包装备到身上
+        {
+            itUI.Clear();       //清空该装备所在的格子
+            PlayerInfo._instance.DressOn(it);
+        }
+        else               //从身上脱下
+        {
+            roleEquip.Clear();              //把身上的装备清空
+            PlayerInfo._instance.DressOff(it);
+        }
         ClearObject();
         gameObject.SetActive(false);
     }

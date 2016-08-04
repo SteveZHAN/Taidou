@@ -34,13 +34,20 @@ public class KnapsackRoleEquip : MonoBehaviour
         Sprite.spriteName = it.Inventory.ICON;
     }
 
+    public void Clear()
+    {
+        it = null;
+        Sprite.spriteName = "bg_道具";
+    }
     public void OnPress(bool isPress)
     {
+        //Debug.Log("KKKKK");
         if(isPress)
         {
-            object[] objectArray=new object[2];
+            object[] objectArray=new object[3];
             objectArray[0]=it;
             objectArray[1]=false;
+            objectArray[2] = this;
             transform.parent.parent.SendMessage("OnInventoryClick", objectArray);
         }
     }

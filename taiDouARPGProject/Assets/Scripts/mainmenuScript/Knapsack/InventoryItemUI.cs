@@ -58,4 +58,20 @@ public class InventoryItemUI : MonoBehaviour
             transform.parent.parent.parent.SendMessage("OnInventoryClick", objectArray);
         }
     }
+
+    public void ChangeCount(int count)
+    {
+        if(it.Count-count <= 0)
+        {
+            Clear();
+        }
+        else if(it.Count-count == 1)
+        {
+            label.text = "";
+        }
+        else
+        {
+            label.text = (it.Count - count).ToString();
+        }
+    }
 }

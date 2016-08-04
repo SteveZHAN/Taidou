@@ -23,7 +23,7 @@ public class MessageManager : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void ShowMessage(string message,float time=1)
+    public void ShowMessage(string message,float time=1)            //供外部调用的消息展示方法
     {
         gameObject.SetActive(true);
         StartCoroutine(Show(message, time));

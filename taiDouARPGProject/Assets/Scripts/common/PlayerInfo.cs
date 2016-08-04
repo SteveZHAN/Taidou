@@ -451,6 +451,17 @@ public class PlayerInfo : MonoBehaviour
         OnPlayerInfoChanged(InfoType.Equip);
     }
 
+    public void InventoryUse(InventoryItem it, int count)
+    {
+       //使用效果
+        
+       //处理物品使用后是否还存在
+        it.Count -= count;
+        if (it.Count < 0)
+        {
+            InventoryManager._instance.inventoryItemList.Remove(it);
+        }
+    }
     //取得需要个数的金币数
     public bool GetCoin(int count)
     {

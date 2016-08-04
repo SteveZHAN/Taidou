@@ -31,6 +31,9 @@ public class knapsack : MonoBehaviour
             equipPopup.Show(it, itUI, roleEquip, isLeft);
         }
         else
-            inventoryPopup.Show(it);
+        {
+            InventoryItemUI itUI = objectArray[2] as InventoryItemUI;
+            inventoryPopup.Show(it, itUI);
+        }
     }
 }

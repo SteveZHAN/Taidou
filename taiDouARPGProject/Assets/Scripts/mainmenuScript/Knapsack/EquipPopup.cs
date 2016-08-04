@@ -3,6 +3,8 @@ using System.Collections;
 
 public class EquipPopup : MonoBehaviour 
 {
+    public PowerShow powerShow;
+
     private InventoryItem it;
     private InventoryItemUI itUI;
     private KnapsackRoleEquip roleEquip;
@@ -90,6 +92,8 @@ public class EquipPopup : MonoBehaviour
     //点击卸下按钮和装备按钮的时候触发
     public void OnEquip()
     {
+        int startValue = PlayerInfo._instance.GetOverAllPower();
+
         if (isLeft)         //从背包装备到身上
         {
             itUI.Clear();       //清空该装备所在的格子
@@ -102,6 +106,9 @@ public class EquipPopup : MonoBehaviour
         }
         ClearObject();
         gameObject.SetActive(false);
+
+        int endValue = PlayerInfo._instance.GetOverAllPower();
+        powerShow.ShowPowerChange(startValue, endValue);
     }
 
     //点击升级按钮

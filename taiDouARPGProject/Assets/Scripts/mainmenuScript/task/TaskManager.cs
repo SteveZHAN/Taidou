@@ -3,8 +3,16 @@ using System.Collections;
 
 public class TaskManager : MonoBehaviour 
 {
+    public static TaskManager _instance;
+
     public TextAsset taskinfoText;
     private ArrayList taskList=new ArrayList();
+
+    void Awake()
+    {
+        _instance = this;
+        InitTask();
+    }
 
     /// <summary>
     /// 初始化任务信息
@@ -40,5 +48,10 @@ public class TaskManager : MonoBehaviour
 
             taskList.Add(task);
         }
+    }
+
+    public ArrayList GetTaskList()
+    {
+        return taskList;
     }
 }

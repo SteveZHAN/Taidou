@@ -3,25 +3,37 @@ using System.Collections;
 
 public class knapsack : MonoBehaviour
 {
+    public static knapsack _instance;
+
     private EquipPopup equipPopup;
     private InventoryPopup inventoryPopup;
 
     private UIButton saleButton;
+    private UIButton closeKnapsackButton;
     private UILabel priceLabel;
+    private TweenPosition tween;
 
     private InventoryItemUI itUI;
     void Awake()
     {
+        _instance = this;
+
         equipPopup = transform.Find("EquipPopup").GetComponent<EquipPopup>();
         inventoryPopup = transform.Find("InventoryPopup").GetComponent<InventoryPopup>();
 
         saleButton = transform.Find("Inventory/ButtonSale").GetComponent<UIButton>();
+        closeKnapsackButton = transform.Find("CloseButton").GetComponent<UIButton>();
         priceLabel = transform.Find("Inventory/PriceBg/Label").GetComponent<UILabel>();
+
+        tween = this.GetComponent<TweenPosition>();
 
         DisableButton();
         
         EventDelegate ed = new EventDelegate(this, "OnSale");
         saleButton.onClick.Add(ed);
+
+        EventDelegate ed2 = new EventDelegate(this, "OnKnapsackClose");
+        closeKnapsackButton.onClick.Add(ed2);
     }
     public void OnInventoryClick(object[] objectArray)
     {
@@ -59,6 +71,17 @@ public class knapsack : MonoBehaviour
         }
     }
 
+    public void Show()
+    {
+        tween.PlayForward();
+    }
+
+    public void Hide()
+    {
+        tween.PlayReverse();
+    }
+
+
     void DisableButton()
     {
         priceLabel.text = "";
@@ -85,5 +108,10 @@ public class knapsack : MonoBehaviour
         inventoryPopup.Close();
 
         DisableButton();
+    }
+
+    void OnKnapsackClose()
+    {
+        Hide();
     }
 }

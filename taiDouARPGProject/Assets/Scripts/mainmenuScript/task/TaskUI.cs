@@ -3,13 +3,24 @@ using System.Collections;
 
 public class TaskUI : MonoBehaviour 
 {
+    public static TaskUI _instance;
+
     private UIGrid taskListGrid;
     public GameObject taskItemPrefab;
+    private TweenPosition tween;
+    private UIButton closeButton;
 	void Awake ()
 	{
-        taskListGrid = transform.Find("Scroll View/Grid").GetComponent<UIGrid>();
+        _instance = this;
 
-	}
+        taskListGrid = transform.Find("Scroll View/Grid").GetComponent<UIGrid>();
+        tween = this.GetComponent<TweenPosition>();
+        closeButton = transform.Find("CloseButton").GetComponent<UIButton>();
+
+
+        EventDelegate ed = new EventDelegate(this, "OnClose");
+        closeButton.onClick.Add(ed);
+    }
 
     void Start()
     {
@@ -31,4 +42,19 @@ public class TaskUI : MonoBehaviour
             ti.SetTask(task);
         }
 	}
+
+    public void Show()
+    {
+        tween.PlayForward();
+    }
+
+    public void Hide()
+    {
+        tween.PlayReverse();
+    }
+
+    void OnClose()
+    {
+        Hide();
+    }
 }

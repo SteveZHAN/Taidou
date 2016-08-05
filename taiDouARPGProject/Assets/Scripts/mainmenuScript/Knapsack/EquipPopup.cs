@@ -82,10 +82,17 @@ public class EquipPopup : MonoBehaviour
     }
 
 
-    public void OnClose()
+    public void OnClose()           //触发关闭按钮
     {
         ClearObject();
+        gameObject.SetActive(false);
 
+        transform.parent.SendMessage("DisableButton");
+    }
+
+    public void Close()         //将弹框信息自身给关闭
+    {
+        ClearObject();
         gameObject.SetActive(false);
     }
 
@@ -111,6 +118,8 @@ public class EquipPopup : MonoBehaviour
         powerShow.ShowPowerChange(startValue, endValue);
 
         InventoryUI._instance.SendMessage("UpdateCount");
+
+        transform.parent.SendMessage("DisableButton");
     }
 
     //点击升级按钮

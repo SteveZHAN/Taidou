@@ -156,7 +156,14 @@ public class InventoryManager : MonoBehaviour
         }
         OnInventoryChange();
     }
+
+    public void RemoveInventoryItem(InventoryItem it)
+    {
+        this.inventoryItemList.Remove(it);
+    }
 }
+
+
 
 
     

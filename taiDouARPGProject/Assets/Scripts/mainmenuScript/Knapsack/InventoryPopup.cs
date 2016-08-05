@@ -48,7 +48,15 @@ public class InventoryPopup : MonoBehaviour
         btnLabel.text = "批量使用(" + it.Count + ")";
     }
 
-    public void OnClose()
+    public void OnClose()           //触发关闭按钮
+    {
+        Clear();
+        gameObject.SetActive(false);
+
+        transform.parent.SendMessage("DisableButton");
+    }
+
+    public void Close()         //将弹框信息自身给关闭
     {
         Clear();
         gameObject.SetActive(false);

@@ -475,6 +475,12 @@ public class PlayerInfo : MonoBehaviour
             
     }
 
+    public void AddCoin(int count)      //出售后存取
+    {
+        this.Coin+=count;
+        OnPlayerInfoChanged(InfoType.Coin);
+    }
+
     public int GetOverAllPower()
     {
         float power = this.Power;

@@ -11,7 +11,7 @@ public class PlayerVillageAnimation : MonoBehaviour
 
 	void Update ()
 	{
-        if (GetComponent<Rigidbody>().velocity.magnitude > 0.01f)        //当物体的速度的值大于0.5时
+        if (GetComponent<Rigidbody>().velocity.magnitude > 0.001f)        //当物体的速度的值大于0.5时
         {
             anim.SetBool("Move", true);
         }

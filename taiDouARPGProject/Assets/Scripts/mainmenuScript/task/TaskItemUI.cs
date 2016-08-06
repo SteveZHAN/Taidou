@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TaskItemUI : MonoBehaviour 
+public class TaskItemUI : MonoBehaviour
 {
     private UISprite taskTypeSprite;
     private UISprite iconSprite;
@@ -39,6 +39,12 @@ public class TaskItemUI : MonoBehaviour
     public void SetTask(Task task)
     {
         this.task = task;
+        task.OnTaskChange += this.OnTaskChange;
+        UpdateShow();
+    }
+
+    void UpdateShow()           //根据任务信息更新UI显示
+    {
         switch (task.TaskType)
         {
             case TaskType.Main:
@@ -60,13 +66,15 @@ public class TaskItemUI : MonoBehaviour
             reward1Label.text = "x" + task.Coin;
             reward2Sprite.spriteName = "钻石";
             reward2Label.text = "x" + task.Diamond;
-        }else if(task.Coin > 0)
+        }
+        else if (task.Coin > 0)
         {
             reward1Sprite.spriteName = "金币";
             reward1Label.text = "x" + task.Coin;
             reward2Sprite.gameObject.SetActive(false);
             reward2Label.gameObject.SetActive(false);
-        }else
+        }
+        else
         {
             reward1Sprite.spriteName = "钻石";
             reward1Label.text = "x" + task.Diamond;
@@ -77,7 +85,7 @@ public class TaskItemUI : MonoBehaviour
         {
             case TaskProgress.NoStart:
                 rewardButton.gameObject.SetActive(false);
-                combatButtonLabel.text="下一步";
+                combatButtonLabel.text = "下一步";
                 break;
             case TaskProgress.Accept:
                 rewardButton.gameObject.SetActive(false);
@@ -98,5 +106,10 @@ public class TaskItemUI : MonoBehaviour
     void OnReward()         //点击“奖励”按纽执行的函数
     {
 
+    }
+
+    void OnTaskChange()
+    {
+        UpdateShow();
     }
 }

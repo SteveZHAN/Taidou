@@ -29,6 +29,9 @@ public class Task
     private int idTranscript;
     private TaskProgress taskProgress = TaskProgress.NoStart;
 
+    public delegate void OnTaskChangeEvent();         //定义一个委托
+    public event OnTaskChangeEvent OnTaskChange;      //利用定义的委托生成一个事件
+
     #region Get Set Method
     public int Id
     {
@@ -83,7 +86,14 @@ public class Task
     public TaskProgress TaskProgress
     {
         get { return taskProgress; }
-        set { taskProgress = value; }
+        set 
+        {
+            if (taskProgress != value)      //不等于说明状态发生改变
+            {
+                taskProgress = value;       //将新的状态值value赋过去
+                OnTaskChange();
+            }
+        }
     }
 #endregion
 

@@ -19,6 +19,7 @@ public class PlayerAutoMove : MonoBehaviour
             {
                 agent.Stop();       //停止导航寻路
                 agent.enabled=false;
+                TaskManager._instance.OnArriveDestination();
             }
         }
 

@@ -91,6 +91,7 @@ public class TaskItemUI : MonoBehaviour
 
     void OnCombat()         //点击“战斗”or“下一步”按钮执行的函数
     {
+        TaskUI._instance.Hide();        //隐藏任务系统的面板
         TaskManager._instance.OnExcuteTask(task);
     }
 

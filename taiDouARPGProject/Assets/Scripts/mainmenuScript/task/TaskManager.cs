@@ -87,4 +87,23 @@ public class TaskManager : MonoBehaviour
             PlayerAutoMove.SetDestination(NPCManager._instance.transcriptGo.transform.position);
         }
     }
+
+    public void OnAcceptTask()      //接受任务
+    {
+        currentTask.TaskProgress = TaskProgress.Accept;
+
+        //寻路到副本入口
+        PlayerAutoMove.SetDestination(NPCManager._instance.transcriptGo.transform.position);
+    }
+
+    public void OnArriveDestination()       //到达目的地（NPC、副本入口）时调用的函数
+    {
+        //到达npc所在的位置时执行
+        if (currentTask.TaskProgress == TaskProgress.NoStart)       
+        {
+            NPCDialogUI._instance.Show(currentTask.TalkNpc);
+        }
+        //到达副本入口的位置
+        //todo
+    }
 }

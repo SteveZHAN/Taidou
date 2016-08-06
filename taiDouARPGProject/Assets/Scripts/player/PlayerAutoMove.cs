@@ -22,6 +22,12 @@ public class PlayerAutoMove : MonoBehaviour
                 TaskManager._instance.OnArriveDestination();
             }
         }
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+        if (Mathf.Abs(h) > 0.05f || Mathf.Abs(v) > 0.05f)
+        {
+            StopAuto();     //如果在寻路过程中按下移动控制键，那么就停止寻路
+        }
 
         //test
         /*
@@ -36,5 +42,14 @@ public class PlayerAutoMove : MonoBehaviour
     {
         agent.enabled = true;
         agent.SetDestination(targetPos);
+    }
+
+    public void StopAuto()          //停止自动寻路的函数
+    {
+        if (agent.enabled)
+        {
+            agent.Stop();       //停止导航寻路
+            agent.enabled = false;
+        }
     }
 }

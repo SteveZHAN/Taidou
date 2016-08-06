@@ -29,6 +29,11 @@ public class TaskItemUI : MonoBehaviour
         rewardButton = transform.Find("RewardButton").GetComponent<UIButton>();
         combatButton = transform.Find("CombatButton").GetComponent<UIButton>();
         combatButtonLabel = transform.Find("CombatButton/Label").GetComponent<UILabel>();
+
+        EventDelegate ed1 = new EventDelegate(this, "OnCombat");
+        combatButton.onClick.Add(ed1);
+        EventDelegate ed2 = new EventDelegate(this, "OnReward");
+        rewardButton.onClick.Add(ed2);
     }
 
     public void SetTask(Task task)
@@ -82,5 +87,15 @@ public class TaskItemUI : MonoBehaviour
                 combatButton.gameObject.SetActive(false);
                 break;
         }
+    }
+
+    void OnCombat()         //点击“战斗”or“下一步”按钮执行的函数
+    {
+        TaskManager._instance.OnExcuteTask(task);
+    }
+
+    void OnReward()         //点击“奖励”按纽执行的函数
+    {
+
     }
 }

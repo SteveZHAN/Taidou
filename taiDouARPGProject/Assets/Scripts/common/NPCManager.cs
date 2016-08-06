@@ -8,6 +8,7 @@ public class NPCManager : MonoBehaviour
 
     public GameObject[] npcArray;
     private Dictionary<int, GameObject> npcDict = new Dictionary<int, GameObject>();
+    public GameObject transcriptGo;     //用于存储副本的位置
 
     void Awake()
     {

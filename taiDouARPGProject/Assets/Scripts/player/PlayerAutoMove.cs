@@ -15,7 +15,7 @@ public class PlayerAutoMove : MonoBehaviour
 	{
         if (agent.enabled)
         {
-            if (agent.remainingDistance < minDistance)      //remainingDistance表示寻路的剩余距离，小于规定的值就执行代码块
+            if (agent.remainingDistance<minDistance && agent.remainingDistance!=0)      //remainingDistance表示寻路的剩余距离，小于规定的值就执行代码块
             {
                 agent.Stop();       //停止导航寻路
                 agent.enabled=false;

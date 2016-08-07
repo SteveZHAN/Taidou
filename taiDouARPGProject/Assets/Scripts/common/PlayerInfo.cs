@@ -474,6 +474,7 @@ public class PlayerInfo : MonoBehaviour
             InventoryManager._instance.inventoryItemList.Remove(it);
         }
     }
+
     //取得需要个数的金币数
     public bool GetCoin(int count)
     {

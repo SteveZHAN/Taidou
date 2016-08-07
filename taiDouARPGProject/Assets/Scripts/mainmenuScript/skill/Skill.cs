@@ -72,4 +72,9 @@ public class Skill
         set { level = value; }
     }
     #endregion
+
+    public void Upgrade()
+    {
+        level++;
+    }
 }

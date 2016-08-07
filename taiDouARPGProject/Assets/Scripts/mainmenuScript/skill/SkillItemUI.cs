@@ -4,6 +4,7 @@ using System.Collections;
 public class SkillItemUI : MonoBehaviour 
 {
     public PosType posType;
+    public bool isSelect=false;       //为了默认选择技能是第一个，在unity面板中对三个技能的isSelect进行赋值
     private Skill skill;
     private UISprite sprite;
     private UIButton button;
@@ -33,6 +34,10 @@ public class SkillItemUI : MonoBehaviour
     void Start()
     {
         UpdateShow();
+        if (isSelect)
+        {
+            OnClick();
+        }
     }
 	void UpdateShow()
 	{

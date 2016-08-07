@@ -3,15 +3,21 @@ using System.Collections;
 
 public class SkillUI : MonoBehaviour 
 {
+    public static SkillUI _instance;
+
     private UILabel skillNameLabel;
     private UILabel skillDesLabel;
     private UIButton closeButton;
     private UIButton upgradeButton;
     private UILabel upgradeButtonLabel;
+    private TweenPosition tween;
 
     private Skill skill;
 	void Awake ()
 	{
+        _instance = this;
+
+        tween = this.GetComponent<TweenPosition>();
         skillNameLabel = transform.Find("Bg/SkillNameLabel").GetComponent<UILabel>();
         skillDesLabel = transform.Find("Bg/DesLabel").GetComponent<UILabel>();
         closeButton = transform.Find("CloseButton").GetComponent<UIButton>();
@@ -23,6 +29,9 @@ public class SkillUI : MonoBehaviour
 
         EventDelegate ed = new EventDelegate(this, "OnUpgrade");
         upgradeButton.onClick.Add(ed);
+
+        EventDelegate ed1 = new EventDelegate(this, "OnClose");
+        closeButton.onClick.Add(ed1);
 
         DisableUpgradeButton("选择技能");       //默认升级按钮是禁用的，上面的文字是“选择技能”
     }
@@ -90,5 +99,20 @@ public class SkillUI : MonoBehaviour
             DisableUpgradeButton("已最大等级");
         }
         
+    }
+
+    public void Show()
+    {
+        tween.PlayForward();
+    }
+
+    public void Hide()
+    {
+        tween.PlayReverse();
+    }
+
+    void OnClose()
+    {
+        tween.PlayReverse();
     }
 }

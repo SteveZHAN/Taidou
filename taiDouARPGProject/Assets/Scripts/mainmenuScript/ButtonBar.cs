@@ -40,32 +40,32 @@ public class ButtonBar : MonoBehaviour
     }
     */
 
-    void OnCombat()
+    void OnCombat()         //点击底部的战斗按钮时调用的函数
     {
 
     }
 
-    void OnKanpsack()
+    void OnKanpsack()       //点击底部的背包按钮时调用的函数
     {
         knapsack._instance.Show();
     }
 
-    void OnTask()
+    void OnTask()           //点击底部的任务按钮时调用的函数
     {
         TaskUI._instance.Show();
     }
 
-    void OnSkill()
+    void OnSkill()          //点击底部的技能按钮时调用的函数
+    {
+        SkillUI._instance.Show();
+    }
+
+    void OnShop()           //点击底部的商店按钮时调用的函数
     {
 
     }
 
-    void OnShop()
-    {
-
-    }
-
-    void OnSystem()
+    void OnSystem()         //点击底部的系统按钮时调用的函数
     {
 
     }

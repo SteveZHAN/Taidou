@@ -11,6 +11,8 @@ public class SkillManager : MonoBehaviour
     void Awake()
     {
         _instance = this;
+
+        InitSkill();
     }
     void InitSkill()
     {
@@ -20,7 +22,7 @@ public class SkillManager : MonoBehaviour
             string[] proArray = str.Split(',');
             Skill skill = new Skill();
             skill.Id=int.Parse(proArray[0]);
-            skill.name=proArray[1];
+            skill.Name=proArray[1];
             skill.Icon = proArray[2];
             switch (proArray[3])
             {
@@ -57,9 +59,21 @@ public class SkillManager : MonoBehaviour
             }
             skill.ColdTime = int.Parse(proArray[6]);
             skill.Damage = int.Parse(proArray[7]);
-            skill.Level = int.Parse(proArray[8]);
-
+            skill.Level = 1;
             skillList.Add(skill);
         }
+    }
+
+    public Skill GetSkillByPosition(PosType posType)
+    {
+        PlayerInfo info = PlayerInfo._instance;
+        foreach (Skill skill in skillList)
+        {
+            if (skill.PlayerType == info.PlayerType && skill.PosType == posType)
+            {
+                return skill;
+            }
+        }
+        return null;
     }
 }

@@ -11,7 +11,7 @@ public enum PosType
 {
     Basic,One,Two,Three
 }
-public class Skill : MonoBehaviour
+public class Skill
 {
     #region property
     private int id;

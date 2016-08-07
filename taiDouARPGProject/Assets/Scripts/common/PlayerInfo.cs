@@ -20,6 +20,11 @@ public enum InfoType
     All
 }
 
+public enum PlayerType
+{
+    Warrior,
+    FemaleAssassin
+}
     
 public class PlayerInfo : MonoBehaviour
 {
@@ -48,6 +53,7 @@ public class PlayerInfo : MonoBehaviour
 
     private int _hp;
     private int _damage;
+    private PlayerType _playerType;
     //private int _helmID = 0;            //装备ID=0表示没有穿上此装备            
     //private int _clothID = 0;
     //private int _weaponID = 0;
@@ -185,6 +191,12 @@ public class PlayerInfo : MonoBehaviour
     {
         get { return _damage; }
         set { _damage = value; }
+    }
+
+    public PlayerType PlayerType
+    {
+        get { return _playerType; }
+        set { _playerType = value; }
     }
     //public int HelmID
     //{
